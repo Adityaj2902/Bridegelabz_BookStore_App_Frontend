@@ -1,11 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './BookCard.scss';
 
 const BookCard = ({ book }) => {
-  const { title, author, rating, price, originalPrice, image, outOfStock } = book;
+  const { id, title, author, rating, price, originalPrice, image, outOfStock, reviews } = book;
+  const navigate = useNavigate();
+  
+  const handleClick = () => {
+    navigate(`/book/${id}`);
+  };
   
   return (
-    <div className={`book-card ${outOfStock ? 'out-of-stock' : ''}`}>
+    <div 
+      className={`book-card ${outOfStock ? 'out-of-stock' : ''}`}
+      onClick={handleClick}
+    >
       <div className="book-image-container">
         <img src={image} alt={title} className="book-image" />
         {outOfStock && <div className="stock-label">OUT OF STOCK</div>}
@@ -20,7 +29,7 @@ const BookCard = ({ book }) => {
             <span className="star-value">{rating}</span>
             <span className="star">★</span>
           </div>
-          <span className="rating-count">({book.reviews} reviews)</span>
+          <span className="rating-count">({reviews} reviews)</span>
         </div>
         
         <div className="book-price">

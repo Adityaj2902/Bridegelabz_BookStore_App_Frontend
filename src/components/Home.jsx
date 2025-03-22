@@ -13,7 +13,7 @@ const booksData = [
     reviews: 20,
     price: 1500,
     originalPrice: 2000,
-    image: "/images/books/dont-make-me-think.jpg"
+    image: "/images/books/dont-make-me-think.svg"
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const booksData = [
     reviews: 30,
     price: 1500,
     originalPrice: 2000,
-    image: "/images/books/react-material.jpg"
+    image: "/images/books/react-material.svg"
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const booksData = [
     reviews: 20,
     price: 1500,
     originalPrice: 2000,
-    image: "/images/books/sharepoint.jpg"
+    image: "/images/books/dont-make-me-think.svg"
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const booksData = [
     reviews: 20,
     price: 1500,
     originalPrice: 2000,
-    image: "/images/books/ux-dummies.jpg",
+    image: "/images/books/ux-dummies.svg",
     outOfStock: true
   },
   {
@@ -54,7 +54,7 @@ const booksData = [
     reviews: 20,
     price: 1500,
     originalPrice: 2000,
-    image: "/images/books/ux-design.jpg"
+    image: "/images/books/dont-make-me-think.svg"
   },
   {
     id: 6,
@@ -64,7 +64,7 @@ const booksData = [
     reviews: 25,
     price: 1500,
     originalPrice: 2000,
-    image: "/images/books/group-decisions.jpg"
+    image: "/images/books/dont-make-me-think.svg"
   },
   {
     id: 7,
@@ -74,7 +74,7 @@ const booksData = [
     reviews: 25,
     price: 1500,
     originalPrice: 2000,
-    image: "/images/books/lean-ux.jpg"
+    image: "/images/books/dont-make-me-think.svg"
   },
   {
     id: 8,
@@ -84,7 +84,7 @@ const booksData = [
     reviews: 20,
     price: 1500,
     originalPrice: 2000,
-    image: "/images/books/design-everyday.jpg"
+    image: "/images/books/dont-make-me-think.svg"
   },
 ];
 
