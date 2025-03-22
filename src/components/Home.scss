@@ -1,0 +1,167 @@
+$primary-color: #a23845;
+$secondary-color: #4a90e2;
+$background-color: #f6f9fc;
+$text-color: #333;
+$light-text: #777;
+$border-color: #ddd;
+$active-color: #a23845;
+$card-background: #f0f8ff;
+
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $background-color;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.books-section {
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $text-color;
+      margin: 0;
+      
+      .item-count {
+        font-size: 1rem;
+        color: $light-text;
+        font-weight: normal;
+      }
+    }
+    
+    .sort-container {
+      .sort-select {
+        padding: 0.5rem 1rem;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        background-color: white;
+        font-size: 0.9rem;
+        color: $text-color;
+        cursor: pointer;
+        outline: none;
+        
+        &:focus {
+          border-color: $secondary-color;
+        }
+      }
+    }
+  }
+  
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    
+    .book-item {
+      height: 100%;
+    }
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    
+    .page-btn {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 0.25rem;
+      border: none;
+      background-color: transparent;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: $text-color;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      
+      &.active {
+        background-color: $active-color;
+        color: white;
+      }
+      
+      &.next {
+        margin-left: 0.5rem;
+        font-weight: bold;
+      }
+    }
+    
+    .page-separator {
+      margin: 0 0.25rem;
+      color: $light-text;
+    }
+  }
+}
+
+.site-footer {
+  background-color: #3c2221;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  
+  p {
+    margin: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .books-section .books-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 1rem;
+  }
+  
+  .books-section {
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      
+      .section-title {
+        margin-bottom: 1rem;
+      }
+    }
+    
+    .books-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .books-section .books-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pagination .page-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+} 

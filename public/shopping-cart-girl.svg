@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shopping Cart -->
+  <path d="M100,300 L300,300 L320,200 L80,200 Z" fill="#6C91C8" stroke="#334E78" stroke-width="4"/>
+  <path d="M100,200 L80,200 L60,150 L40,150" fill="none" stroke="#334E78" stroke-width="4"/>
+  <circle cx="120" cy="320" r="20" fill="#334E78" stroke="#334E78" stroke-width="2"/>
+  <circle cx="280" cy="320" r="20" fill="#334E78" stroke="#334E78" stroke-width="2"/>
+  
+  <!-- Person -->
+  <ellipse cx="200" cy="160" rx="40" ry="50" fill="#80B3FF" stroke="#334E78" stroke-width="2"/>
+  <circle cx="200" cy="120" r="30" fill="#FFE0B2" stroke="#334E78" stroke-width="2"/>
+  
+  <!-- Face -->
+  <circle cx="190" cy="110" r="3" fill="#334E78"/>
+  <circle cx="210" cy="110" r="3" fill="#334E78"/>
+  <path d="M190,130 Q200,140 210,130" fill="none" stroke="#334E78" stroke-width="2"/>
+  
+  <!-- Hair -->
+  <path d="M175,100 Q200,70 225,100" fill="#334E78" stroke="#334E78" stroke-width="2"/>
+  
+  <!-- Books -->
+  <rect x="150" y="160" width="30" height="40" fill="#8B4513" stroke="#334E78" stroke-width="2"/>
+  <rect x="230" y="160" width="30" height="40" fill="#B22222" stroke="#334E78" stroke-width="2"/>
+  
+  <!-- Arms -->
+  <path d="M160,160 L120,180" fill="none" stroke="#80B3FF" stroke-width="10" stroke-linecap="round"/>
+  <path d="M240,160 L280,180" fill="none" stroke="#80B3FF" stroke-width="10" stroke-linecap="round"/>
+  
+  <!-- Legs -->
+  <path d="M180,210 L160,280" fill="none" stroke="#4169E1" stroke-width="10" stroke-linecap="round"/>
+  <path d="M220,210 L240,280" fill="none" stroke="#4169E1" stroke-width="10" stroke-linecap="round"/>
+</svg> 

@@ -1,0 +1,169 @@
+// Auth.scss
+$primary-color: #3a86ff;
+$secondary-color: #8a4c7d;
+$background-color: #acbbdd;
+$light-blue: #d7e3fc;
+$dark-text: #333;
+$white: #fff;
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: $background-color;
+  padding: 20px;
+}
+
+.auth-wrapper {
+  display: flex;
+  max-width: 900px;
+  width: 100%;
+  background-color: $white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.left-panel {
+  flex: 1;
+  background-color: $light-blue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+
+  .image-container {
+    width: 70%;
+    max-width: 300px;
+    margin-bottom: 30px;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $dark-text;
+    text-align: center;
+    margin: 0;
+  }
+}
+
+.right-panel {
+  flex: 1;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+
+  .tab-container {
+    display: flex;
+    margin-bottom: 30px;
+    
+    .tab-button {
+      flex: 1;
+      padding: 10px 15px;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: $dark-text;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      text-align: center;
+
+      &.active {
+        color: $primary-color;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 50px;
+          height: 3px;
+          background-color: $primary-color;
+        }
+      }
+    }
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      color: $dark-text;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.3s;
+
+      &:focus {
+        border-color: $primary-color;
+      }
+    }
+  }
+
+  .password-input-container {
+    position: relative;
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #777;
+    }
+  }
+
+  .signup-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: $secondary-color;
+    color: $white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+    }
+  }
+}
+
+// Responsive styling
+@media (max-width: 768px) {
+  .auth-wrapper {
+    flex-direction: column;
+  }
+
+  .left-panel {
+    padding: 30px 20px;
+  }
+
+  .right-panel {
+    padding: 30px 20px;
+  }
+} 

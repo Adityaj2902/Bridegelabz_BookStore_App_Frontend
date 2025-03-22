@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="300" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="300" fill="#fff200" />
+  <rect x="10" y="10" width="180" height="280" fill="#fff200" stroke="black" stroke-width="2" />
+  <text x="100" y="140" font-family="Arial" font-size="20" font-weight="bold" fill="black" text-anchor="middle">UX</text>
+  <text x="100" y="170" font-family="Arial" font-size="18" font-weight="bold" fill="black" text-anchor="middle">FOR</text>
+  <text x="100" y="200" font-family="Arial" font-size="20" font-weight="bold" fill="black" text-anchor="middle">DUMMIES</text>
+</svg> 
