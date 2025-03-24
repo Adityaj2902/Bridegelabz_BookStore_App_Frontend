@@ -56,6 +56,12 @@ $original-price: #999;
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
+      
+      &.loading {
+        opacity: 0.6;
+        background-color: #f0f0f0;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
     }
     
     .stock-label {
@@ -164,5 +170,17 @@ $original-price: #999;
         font-size: 0.8rem;
       }
     }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.6;
   }
 } 

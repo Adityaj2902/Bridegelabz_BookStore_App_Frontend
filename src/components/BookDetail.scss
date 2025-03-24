@@ -93,6 +93,12 @@ $wishlist-color: #333;
         height: 100%;
         object-fit: cover;
       }
+      
+      img.loading {
+        opacity: 0.6;
+        background-color: #f0f0f0;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
     }
   }
   
@@ -106,6 +112,12 @@ $wishlist-color: #333;
       width: 100%;
       height: auto;
       display: block;
+      
+      &.loading {
+        opacity: 0.6;
+        background-color: #f0f0f0;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
     }
   }
   
@@ -238,5 +250,17 @@ $wishlist-color: #333;
   
   &.filled {
     color: $star-color;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.6;
   }
 } 

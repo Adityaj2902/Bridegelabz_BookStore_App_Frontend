@@ -135,7 +135,7 @@ $white: #fff;
     }
   }
 
-  .signup-button {
+  .auth-button {
     width: 100%;
     padding: 12px;
     border: none;
@@ -151,6 +151,16 @@ $white: #fff;
       background-color: darken($secondary-color, 10%);
     }
   }
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+  text-align: center;
 }
 
 // Responsive styling

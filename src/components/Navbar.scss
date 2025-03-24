@@ -5,9 +5,6 @@ $hover-color: #c34d5a;
 $shadow-color: rgba(0, 0, 0, 0.2);
 
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   background-color: $primary-color;
   padding: 0.8rem 2rem;
   color: $text-color;
@@ -16,79 +13,119 @@ $shadow-color: rgba(0, 0, 0, 0.2);
   top: 0;
   z-index: 1000;
 
-  .navbar-brand {
+  .navbar-container {
     display: flex;
     align-items: center;
-
-    .logo {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-
-      .book-icon {
-        font-size: 1.5rem;
-        margin-right: 0.5rem;
-      }
-
-      .brand-name {
-        font-size: 1.2rem;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-      }
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    @media (max-width: 768px) {
+      flex-wrap: wrap;
     }
   }
-
-  .search-container {
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: $text-color;
+    
+    .book-icon {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+    
+    .brand-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  .search-bar {
     flex: 1;
     max-width: 500px;
+    display: flex;
     margin: 0 1.5rem;
-
-    .search-input {
+    
+    @media (max-width: 768px) {
+      order: 3;
+      margin: 1rem 0 0;
+      max-width: 100%;
       width: 100%;
+    }
+    
+    .search-input {
+      flex: 1;
       padding: 0.6rem 1rem;
       border: none;
-      border-radius: 4px;
+      border-radius: 4px 0 0 4px;
       font-size: 0.9rem;
       background-color: rgba(255, 255, 255, 0.9);
-      transition: all 0.3s ease;
       
       &:focus {
         outline: none;
         box-shadow: 0 0 0 2px $secondary-color;
       }
     }
+    
+    .search-button {
+      background-color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      
+      .search-icon {
+        font-size: 1rem;
+      }
+    }
   }
-
-  .navbar-actions {
+  
+  .nav-actions {
     display: flex;
     align-items: center;
     
-    .action-item {
-      margin-left: 1.5rem;
+    .nav-link {
+      display: flex;
+      align-items: center;
+      color: $text-color;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+      border-radius: 4px;
+      position: relative;
       
-      .icon-button {
-        background: none;
-        border: none;
-        color: $text-color;
-        cursor: pointer;
-        padding: 0.5rem;
+      &:hover {
+        background-color: $hover-color;
+      }
+      
+      .profile-icon, .cart-icon {
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+      }
+      
+      .profile-text, .cart-text {
+        font-size: 0.9rem;
+      }
+    }
+    
+    .cart-link {
+      .cart-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: #fff;
+        color: $primary-color;
+        font-size: 0.7rem;
+        font-weight: 600;
+        width: 18px;
+        height: 18px;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        transition: all 0.2s ease;
-        
-        &:hover {
-          color: darken($text-color, 10%);
-        }
-        
-        .icon {
-          font-size: 1.2rem;
-          margin-bottom: 0.2rem;
-        }
-        
-        .label {
-          font-size: 0.8rem;
-        }
+        border-radius: 50%;
       }
     }
   }
@@ -98,19 +135,20 @@ $shadow-color: rgba(0, 0, 0, 0.2);
   .navbar {
     padding: 0.8rem 1rem;
     
-    .navbar-brand .logo .brand-name {
+    .brand .brand-name {
       display: none;
     }
     
-    .search-container {
+    .search-bar {
       max-width: 200px;
       margin: 0 0.5rem;
     }
     
-    .navbar-actions .action-item {
+    .nav-actions .nav-link {
       margin-left: 0.8rem;
+      padding: 0.5rem;
       
-      .icon-button .label {
+      .profile-text, .cart-text {
         display: none;
       }
     }

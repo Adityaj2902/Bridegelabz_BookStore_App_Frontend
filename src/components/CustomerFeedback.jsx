@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import './CustomerFeedback.scss';
 
 const CustomerFeedback = ({ bookId, reviews = [] }) => {
   const [userRating, setUserRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   
-  const handleRatingClick = (rating) => {
+  const handleRatingClick = useCallback((rating) => {
     setUserRating(rating);
-  };
+  }, []);
   
-  const handleReviewSubmit = (e) => {
+  const handleReviewSubmit = useCallback((e) => {
     e.preventDefault();
     // This would typically make an API call to submit the review
     alert(`Submitted review with rating: ${userRating} and text: ${reviewText}`);
     setUserRating(0);
     setReviewText('');
-  };
+  }, [userRating, reviewText]);
+  
+  const handleTextChange = useCallback((e) => {
+    setReviewText(e.target.value);
+  }, []);
   
   // Helper function to render stars based on rating
-  const renderStars = (rating, interactive = false) => {
+  const renderStars = useCallback((rating, interactive = false) => {
     const stars = [];
     
     for (let i = 1; i <= 5; i++) {
@@ -45,7 +49,27 @@ const CustomerFeedback = ({ bookId, reviews = [] }) => {
     }
     
     return stars;
-  };
+  }, [userRating, handleRatingClick]);
+  
+  // Memoize the reviews list rendering
+  const reviewsList = useMemo(() => {
+    if (reviews && reviews.length > 0) {
+      return reviews.map(review => (
+        <div key={review.id} className="review-item">
+          <div className="reviewer-info">
+            <div className="avatar">{review.user.id}</div>
+            <div className="reviewer-name">{review.user.name}</div>
+          </div>
+          <div className="review-stars">
+            {renderStars(review.rating)}
+          </div>
+          <p className="review-text">{review.comment}</p>
+        </div>
+      ));
+    }
+    
+    return <p className="no-reviews">No reviews yet. Be the first to review!</p>;
+  }, [reviews, renderStars]);
   
   return (
     <div className="customer-feedback">
@@ -61,7 +85,7 @@ const CustomerFeedback = ({ bookId, reviews = [] }) => {
           <textarea 
             placeholder="Write your review" 
             value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
+            onChange={handleTextChange}
           />
           <button 
             className="submit-review"
@@ -74,25 +98,10 @@ const CustomerFeedback = ({ bookId, reviews = [] }) => {
       </div>
       
       <div className="reviews-list">
-        {reviews && reviews.length > 0 ? (
-          reviews.map(review => (
-            <div key={review.id} className="review-item">
-              <div className="reviewer-info">
-                <div className="avatar">{review.user.id}</div>
-                <div className="reviewer-name">{review.user.name}</div>
-              </div>
-              <div className="review-stars">
-                {renderStars(review.rating)}
-              </div>
-              <p className="review-text">{review.comment}</p>
-            </div>
-          ))
-        ) : (
-          <p className="no-reviews">No reviews yet. Be the first to review!</p>
-        )}
+        {reviewsList}
       </div>
     </div>
   );
 };
 
-export default CustomerFeedback; 
+export default React.memo(CustomerFeedback); 

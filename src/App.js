@@ -1,17 +1,12 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import BookDetail from './components/BookDetail';
+import { Outlet } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/book/:id" element={<BookDetail />} />
-        </Routes>
-      </BrowserRouter>
+      <Navbar />
+      <Outlet />
     </div>
   );
 }

@@ -1,105 +1,53 @@
-import React, { useState } from 'react';
-import Navbar from './Navbar';
+import React, { useState, useCallback, useMemo } from 'react';
 import BookCard from './BookCard';
+import { useBookContext } from '../contexts/BookContext';
 import './Home.scss';
-
-// Sample book data
-const booksData = [
-  {
-    id: 1,
-    title: "Don't Make Me Think",
-    author: "Steve Krug",
-    rating: 4.5,
-    reviews: 20,
-    price: 1500,
-    originalPrice: 2000,
-    image: "/images/books/dont-make-me-think.svg"
-  },
-  {
-    id: 2,
-    title: "React Material-UI",
-    author: "Steve Krug",
-    rating: 4.4,
-    reviews: 30,
-    price: 1500,
-    originalPrice: 2000,
-    image: "/images/books/react-material.svg"
-  },
-  {
-    id: 3,
-    title: "Mastering SharePoint Framework",
-    author: "Steve Krug",
-    rating: 4.4,
-    reviews: 20,
-    price: 1500,
-    originalPrice: 2000,
-    image: "/images/books/dont-make-me-think.svg"
-  },
-  {
-    id: 4,
-    title: "UX For DUMMIES",
-    author: "Steve Krug",
-    rating: 4.5,
-    reviews: 20,
-    price: 1500,
-    originalPrice: 2000,
-    image: "/images/books/ux-dummies.svg",
-    outOfStock: true
-  },
-  {
-    id: 5,
-    title: "UX Design",
-    author: "Steve Krug",
-    rating: 4.5,
-    reviews: 20,
-    price: 1500,
-    originalPrice: 2000,
-    image: "/images/books/dont-make-me-think.svg"
-  },
-  {
-    id: 6,
-    title: "Group Decisions",
-    author: "Steve Krug",
-    rating: 4.6,
-    reviews: 25,
-    price: 1500,
-    originalPrice: 2000,
-    image: "/images/books/dont-make-me-think.svg"
-  },
-  {
-    id: 7,
-    title: "Lean UX",
-    author: "Steve Krug",
-    rating: 4.5,
-    reviews: 25,
-    price: 1500,
-    originalPrice: 2000,
-    image: "/images/books/dont-make-me-think.svg"
-  },
-  {
-    id: 8,
-    title: "The Design of Everyday Things",
-    author: "Steve Krug",
-    rating: 4.5,
-    reviews: 20,
-    price: 1500,
-    originalPrice: 2000,
-    image: "/images/books/dont-make-me-think.svg"
-  },
-];
 
 const Home = () => {
   const [sortBy, setSortBy] = useState('relevance');
-  const totalItems = booksData.length;
+  const { books } = useBookContext();
+  const totalItems = books.length;
   
-  const handleSortChange = (e) => {
+  const handleSortChange = useCallback((e) => {
     setSortBy(e.target.value);
-  };
+  }, []);
+  
+  // Memoize the sorted books
+  const sortedBooks = useMemo(() => {
+    let sorted = [...books];
+    
+    switch(sortBy) {
+      case 'price-low':
+        sorted.sort((a, b) => (a.discountPrice || a.price) - (b.discountPrice || b.price));
+        break;
+      case 'price-high':
+        sorted.sort((a, b) => (b.discountPrice || b.price) - (a.discountPrice || a.price));
+        break;
+      case 'rating':
+        sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        break;
+      default:
+        // Keep original order for relevance
+        break;
+    }
+    
+    return sorted;
+  }, [sortBy, books]);
+  
+  const renderBookGrid = useMemo(() => {
+    return (
+      <div className="books-grid">
+        {sortedBooks.map(book => (
+          <div className="book-item" key={book._id}>
+            <BookCard book={book} />
+          </div>
+        ))}
+      </div>
+    );
+  }, [sortedBooks]);
   
   return (
     <div className="home-page">
-      <Navbar />
-      
       <main className="content">
         <div className="books-section">
           <div className="section-header">
@@ -119,13 +67,7 @@ const Home = () => {
             </div>
           </div>
           
-          <div className="books-grid">
-            {booksData.map(book => (
-              <div className="book-item" key={book.id}>
-                <BookCard book={book} />
-              </div>
-            ))}
-          </div>
+          {renderBookGrid}
           
           <div className="pagination">
             <button className="page-btn active">1</button>
@@ -152,4 +94,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default React.memo(Home); 

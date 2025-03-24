@@ -1,20 +1,128 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { loginApiCall, signupApiCall } from '../utils/backend.api';
 import './Auth.scss';
 
 const Auth = () => {
-  const [activeTab, setActiveTab] = useState('signup');
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('login');
   const [showPassword, setShowPassword] = useState(false);
   const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   
-  const toggleTab = (tab) => {
+  // Form state
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [signupForm, setSignupForm] = useState({ 
+    firstName: '', 
+    lastName: '', 
+    email: '', 
+    password: '' 
+  });
+  
+  const toggleTab = useCallback((tab) => {
     setActiveTab(tab);
-  };
+    setError('');
+  }, []);
 
-  const togglePasswordVisibility = (isLogin = false) => {
+  const togglePasswordVisibility = useCallback((isLogin = false) => {
     if (isLogin) {
-      setShowLoginPassword(!showLoginPassword);
+      setShowLoginPassword(prev => !prev);
     } else {
-      setShowPassword(!showPassword);
+      setShowPassword(prev => !prev);
+    }
+  }, []);
+  
+  const handleLoginChange = (e) => {
+    const { id, value } = e.target;
+    setLoginForm(prev => ({
+      ...prev,
+      [id.replace('login', '').toLowerCase()]: value
+    }));
+  };
+  
+  const handleSignupChange = (e) => {
+    const { id, value } = e.target;
+    setSignupForm(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+  
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    
+    try {
+      const response = await loginApiCall(loginForm);
+      
+      if (response && response.data && response.data.token) {
+        localStorage.setItem('authToken', response.data.token);
+        navigate('/dashboard');
+      } else {
+        setError('Invalid response from server');
+      }
+    } catch (error) {
+      setError(error.response?.data?.message || 'Failed to login. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    
+    try {
+      // Create payload with all possible field variations that the backend might expect
+      const payload = {
+        firstname: signupForm.firstName,
+        lastname: signupForm.lastName,
+        firstName: signupForm.firstName, // Include camelCase version as fallback
+        lastName: signupForm.lastName,   // Include camelCase version as fallback
+        email: signupForm.email,
+        password: signupForm.password
+      };
+      
+      const response = await signupApiCall(payload);
+      
+      // Check if we have any indication of success in the response
+      if (response && response.status >= 200 && response.status < 300) {
+        // If we got a successful HTTP status code
+        let token = null;
+        
+        // Try to extract token from different possible response formats
+        if (response.data && response.data.token) {
+          token = response.data.token;
+        } else if (response.data && response.data.user && response.data.user.token) {
+          token = response.data.user.token;
+        } else if (response.headers && response.headers.authorization) {
+          token = response.headers.authorization.replace('Bearer ', '');
+        }
+        
+        if (token) {
+          localStorage.setItem('authToken', token);
+        } else {
+          // Even without a token, registration was successful - proceed to login
+          setActiveTab('login');
+          setError('Registration successful! Please login with your credentials.');
+          setLoading(false);
+          return;
+        }
+        
+        navigate('/dashboard');
+      } else {
+        setError('Invalid response from server');
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.error || 
+                          'Failed to register. Please try again.';
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,13 +152,18 @@ const Auth = () => {
             </button>
           </div>
           
+          {error && <div className="error-message">{error}</div>}
+          
           {activeTab === 'login' ? (
-            <div className="login-form">
+            <form className="login-form" onSubmit={handleLogin}>
               <div className="form-group">
                 <label htmlFor="loginEmail">Email Id</label>
                 <input 
                   type="email" 
-                  id="loginEmail" 
+                  id="loginEmail"
+                  value={loginForm.email}
+                  onChange={handleLoginChange}
+                  required
                 />
               </div>
               
@@ -59,9 +172,13 @@ const Auth = () => {
                 <div className="password-input-container">
                   <input 
                     type={showLoginPassword ? "text" : "password"} 
-                    id="loginPassword" 
+                    id="loginPassword"
+                    value={loginForm.password}
+                    onChange={handleLoginChange}
+                    required
                   />
                   <button 
+                    type="button"
                     className="toggle-password"
                     onClick={() => togglePasswordVisibility(true)}
                   >
@@ -70,18 +187,33 @@ const Auth = () => {
                 </div>
               </div>
               
-              <button className="signup-button">
-                Login
+              <button type="submit" className="auth-button" disabled={loading}>
+                {loading ? 'Logging in...' : 'Login'}
               </button>
-            </div>
+            </form>
           ) : (
-            <div className="signup-form">
+            <form className="signup-form" onSubmit={handleSignup}>
               <div className="form-group">
-                <label htmlFor="fullName">Full Name</label>
+                <label htmlFor="firstName">First Name</label>
                 <input 
                   type="text" 
-                  id="fullName" 
-                  placeholder="Enter full name" 
+                  id="firstName" 
+                  placeholder="Enter first name"
+                  value={signupForm.firstName}
+                  onChange={handleSignupChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="lastName">Last Name</label>
+                <input 
+                  type="text" 
+                  id="lastName" 
+                  placeholder="Enter last name"
+                  value={signupForm.lastName}
+                  onChange={handleSignupChange}
+                  required
                 />
               </div>
               
@@ -89,7 +221,10 @@ const Auth = () => {
                 <label htmlFor="email">Email Id</label>
                 <input 
                   type="email" 
-                  id="email" 
+                  id="email"
+                  value={signupForm.email}
+                  onChange={handleSignupChange}
+                  required
                 />
               </div>
               
@@ -98,9 +233,13 @@ const Auth = () => {
                 <div className="password-input-container">
                   <input 
                     type={showPassword ? "text" : "password"} 
-                    id="password" 
+                    id="password"
+                    value={signupForm.password}
+                    onChange={handleSignupChange}
+                    required
                   />
                   <button 
+                    type="button"
                     className="toggle-password"
                     onClick={() => togglePasswordVisibility()}
                   >
@@ -109,18 +248,10 @@ const Auth = () => {
                 </div>
               </div>
               
-              <div className="form-group">
-                <label htmlFor="mobileNumber">Mobile Number</label>
-                <input 
-                  type="tel" 
-                  id="mobileNumber" 
-                />
-              </div>
-              
-              <button className="signup-button">
-                Signup
+              <button type="submit" className="auth-button" disabled={loading}>
+                {loading ? 'Signing Up...' : 'Signup'}
               </button>
-            </div>
+            </form>
           )}
         </div>
       </div>
@@ -128,4 +259,4 @@ const Auth = () => {
   );
 };
 
-export default Auth; 
+export default React.memo(Auth);
